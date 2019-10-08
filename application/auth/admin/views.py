@@ -33,7 +33,7 @@ def admin_login():
         flash(f'Bad credentials.', 'danger')
         return redirect(url_for('admin_login'))
 
-@app.route('/auth/admin/sort-by/date/')
+@app.route('/auth/admin/manage/')
 def manage():
     if session['admin_token'] and session['admin_token'] == admin_token:
         page = request.args.get('page', 1, type=int)
