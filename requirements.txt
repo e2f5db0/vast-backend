@@ -17,3 +17,4 @@ werkzeug>=0.15.3
 WTForms==2.2.1
 flask-cors>=3.0.7
 python-dotenv>=0.10.3
+ibm-watson>=3.4.0
