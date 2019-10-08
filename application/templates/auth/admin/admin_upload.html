@@ -1,0 +1,93 @@
+{% extends "admin_layout.html" %}
+{% block body %}
+  <h3 class="admin-layout mt-4 mb-4" style="text-align: left;"><a href="{{ url_for('manage') }}">< Manage</a></h3>
+  <div class="content-section">
+    <form  method="POST" action="{{ url_for('upload') }}" id="line">
+      {{ form.csrf_token }}
+      <fieldset class="form.group">
+        <legend class="border-bottom mb-4">Upload Text-to-Speech</legend>
+        <div class="form-group">
+          {{ form.filename.label(class="form-control-label") }}
+          {% if form.filename.errors %}
+            {{ form.filename(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.filename.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.filename(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.duration.label(class="form-control-label") }}
+            {% if form.duration.errors %}
+              {{ form.duration(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.duration.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.duration(class="form-control form-control-lg") }}
+            {% endif %}
+          </div>
+        <div class="form-group">
+          {{ form.text.label(class="form-control-label") }}
+          {% if form.text.errors %}
+            {{ form.text(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.text.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.text(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.choice1.label(class="form-control-label") }}
+          {% if form.choice1.errors %}
+            {{ form.choice1(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.choice1.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.choice1(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.choice2.label(class="form-control-label") }}
+          {% if form.choice2.errors %}
+            {{ form.choice2(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.choice2.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.choice2(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.choice3.label(class="form-control-label") }}
+          {% if form.choice3.errors %}
+            {{ form.choice3(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.choice3.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.choice3(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.submit(class="btn wide-btn btn-outline-info") }}
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

@@ -1,4 +1,5 @@
 # flask-app
+import os
 from flask import Flask
 from flask_cors import CORS
 
@@ -6,7 +7,6 @@ app = Flask(__name__)
 CORS(app)
 
 # database
-import os
 from flask_sqlalchemy import SQLAlchemy
 
 from dotenv import load_dotenv

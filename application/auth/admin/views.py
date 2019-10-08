@@ -3,6 +3,9 @@ from flask import Flask, session, make_response, flash, jsonify
 from flask import render_template, request, redirect, url_for, send_file, abort
 from application.lines.models import Line
 from application.lines.models import Music
+from application.auth.admin.forms import LineForm
+from ibm_watson import TextToSpeechV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from io import BytesIO
 
 from application import app
@@ -12,7 +15,16 @@ from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 from os import urandom
 
+import os
+
 admin_token = urandom(32)
+
+authenticator = IAMAuthenticator(os.getenv('API_KEY'))
+text_to_speech = TextToSpeechV1(
+    authenticator=authenticator
+)
+text_to_speech.set_service_url(os.getenv('API_URL'))
+text_to_speech.set_default_headers({'Access-Control-Allow-Origin': "*"})
 
 @app.route('/auth/admin/', methods=['GET', 'POST'])
 def admin_login():
@@ -41,6 +53,43 @@ def manage():
         return render_template('/auth/admin/admin_manage.html', lines=lines, sort_by='date')
     else:
         abort(403)
+
+@app.route('/auth/admin/upload/', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'GET':
+        return render_template('auth/admin/admin_upload.html', form=LineForm())
+
+    form = LineForm(request.form)
+
+    # Create an audio file
+    filename = str(form.filename.data) + '.wav'
+    filepath = './audio/' + filename
+
+    with open(filepath, 'wb') as audio_file:
+        audio_file.write(
+            text_to_speech.synthesize(
+                form.text.data,
+                voice='en-GB_KateV3Voice',
+                accept='audio/wav'
+            ).get_result().content)
+
+    # Read the created audio file
+    audio = open(filepath, 'rb').read()
+
+    music = Music(name=filename, data=audio)
+
+    l = Line(form.filename.data, form.duration.data, form.text.data, form.choice1.data, form.choice2.data, form.choice3.data)
+    l.music = music
+
+    if form.validate_on_submit():
+        db.session().add(l)
+        db.session().add(music)
+        db.session().commit()
+        flash(f'File uploaded.', 'success')
+        return redirect(url_for('upload'))
+    else:
+        flash(f'Something went wrong.', 'danger')
+        return render_template('auth/admin/admin_upload.html', form=form)
 
 @app.route('/left-path/<id>/')
 def left_path(id):
