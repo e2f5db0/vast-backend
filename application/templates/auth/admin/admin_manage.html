@@ -3,7 +3,8 @@
   <form method="GET" action="{{ url_for('admin_logout') }}">
     <input class="btn btn-info" type="submit" value="Logout" style="float:right">
   </form>
-  <h1 class="admin-layout" style="text-align: left;">Manage</h1>
+  <h1 class="admin-layout mb-4" style="text-align: left;">Manage</h1>
+  <h4 class="admin-layout mt-4 mb-4" style="text-align: left;"><a href="{{ url_for('upload') }}">Upload lines</a></h4>
   <p class="admin-layout">Sort:</p>
   <select name="sort_by" id="sort_by" onchange="javascript:location.href = this.value;">
     <option value="{{ url_for('manage') }}" id="date">Date</option>
