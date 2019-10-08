@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    background: #fafafa;
+    color: #333333;
+    margin-top: 6rem;
+}
+
+footer {
+    text-align: center;
+    height: 30px;
+    margin-top: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 1%;
+    text-align: center;
+    color: #444444;
+}
+
+p {
+    padding: 1%;
+    font-size: 110%;
+}
+
+.wide-btn {
+    font-size: 130%;
+    width: 100%;
+}
+
+.bg-steel {
+    background-color: #138496;
+}
+
+.site-header .navbar-nav .nav-link {
+    color: #a8b2b7;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+}
+
+.content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.line-title {
+    color: #444444;
+}
+
+.line-title {
+    color: #428bca;
+    text-decoration: none;
+}
+
+.line-content {
+    white-space: pre-line;
+}
+
+.line-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+}
+
+.line-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+.line-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.account-heading {
+    font-size: 2.5rem;
+}
+
+.admin-layout {
+    padding: 0;
+}

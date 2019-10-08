@@ -1,0 +1,49 @@
+{% extends "admin_layout.html" %}
+{% block body %}
+  <form method="GET" action="{{ url_for('admin_logout') }}">
+    <input class="btn btn-info" type="submit" value="Logout" style="float:right">
+  </form>
+  <h1 class="admin-layout" style="text-align: left;">Manage</h1>
+  <p class="admin-layout">Sort:</p>
+  <select name="sort_by" id="sort_by" onchange="javascript:location.href = this.value;">
+    <option value="{{ url_for('manage') }}" id="date">Date</option>
+  </select>
+  {% if sort_by == 'date' %}
+    <script>document.getElementById("date").selected="selected";</script>
+  {% endif %}
+  <h5 style="text-align: left; padding: 2% 0;">Lines: {{ lines.total }}</h5>
+  {% for line in lines.items %}
+    <p class="admin-layout"></p>
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="line-metadata">
+          <h4 class="admin-layout mr-2" style="text-align: left;">
+            {{ line.filename }}
+          </h4>
+          <small class="text-muted">Created: {{ line.date_created.strftime('%x %X') }}</small>
+        </div>
+        <p>{{ line.text }}</p>
+        {{ line.choice1 }} | {{ line.choice2 }} | {{ line.choice3 }}
+        <p></p>
+        <a href="{{ url_for('get_line_file', id=line.music.id) }}">{{ line.music.name }}</a>
+        <p></p>
+        <form method="GET" action="{{ url_for('admin_confirmation', id=line.id) }}">
+          <input class="btn btn-danger" type="submit" value="Delete">
+      </form>
+      </div>
+    </article>
+  {% endfor %}
+  {% for page_num in lines.iter_pages(left_edge=0, right_edge=0, left_current=1, right_current=2) %}
+    {% if sort_by == 'date' %}
+      {% if page_num %}
+        {% if lines.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('manage', page=page_num) }}">{{ page_num }}</a>
+        {% elif lines.page < page_num %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('manage', page=page_num) }}"> > </a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('manage', page=page_num) }}"> < </a>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}

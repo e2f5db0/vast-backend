@@ -1,0 +1,22 @@
+{% extends "admin_layout.html" %}
+{% block body %}
+  {{ error }}
+  <div class="content-section">
+    <form method="POST" action="{{ url_for('admin_login') }}">
+      {{ form.csrf_token }}
+      <fieldset class="form.group">
+        <div class="form-group">
+          {{ form.username(class="form-control form-control-lg is-invalid") }}
+        </div>
+        <div class="form-group">
+          {{ form.password(class="form-control form-control-lg is-invalid") }}
+        </div>
+        <div class="form-group">
+          <div style="display:none">
+            {{ form.submit }}
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}
