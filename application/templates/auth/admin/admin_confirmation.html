@@ -3,14 +3,12 @@
     <h2>Confirm</h2>
     <article class="media content-section">
         <div class="media-body">
-            <p style="text-align:center;" class="enrollment-content">Are you sure you want to delete the line
+            <p style="text-align:center;" class="line-content">Are you sure you want to delete the line
                 '<b>{{ line.filename }}</b>'?
             </p>
             <p style="text-align:center;">
-                Group leader's information:<br>
-                {{ enrollment.group_leader_name }} <br>
-                {{ enrollment.group_leader_phone }} <br>
-                {{ enrollment.group_leader_email }}
+                Text:<br>
+                {{ line.text }}
             </p>
             <div style="text-align:center;">
                 <form style="display:inline-block" method="GET" action="{{ url_for('manage') }}">
