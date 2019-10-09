@@ -117,9 +117,9 @@ def get_line_file(name):
 @app.route('/auth/admin/delete/<id>/')
 def admin_delete_line(id):
     if session['admin_token'] and session['admin_token'] == admin_token:
-        e = Line.query.get_or_404(id)
-        m = Music.query.filter_by(line_id=e.id).first()
-        db.session.delete(e)
+        l = Line.query.get_or_404(id)
+        m = Music.query.filter_by(line_id=l.id).first()
+        db.session.delete(l)
         db.session.delete(m)
         db.session.commit()
 
