@@ -106,6 +106,21 @@ def left_path(id):
     else:
         abort(404)
 
+@app.route('/right-path/<id>/')
+def right_path(id):
+    name = 'right_path' + str(id)
+    line = Line.query.filter_by(filename=name).first()
+    if line:
+        return jsonify(
+            text = line.text,
+            filename = line.filename,
+            choice1 = line.choice1,
+            choice2 = line.choice2,
+            choice3 = line.choice3
+        )
+    else:
+        abort(404)
+
 @app.route('/lines/<name>/')
 def get_line_file(name):
     music = Music.query.filter_by(name=name).first()
