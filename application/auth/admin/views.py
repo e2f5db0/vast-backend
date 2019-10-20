@@ -98,6 +98,7 @@ def left_path(id):
     if line:
         return jsonify(
             text = line.text,
+            duration = line.duration,
             filename = line.filename,
             choice1 = line.choice1,
             choice2 = line.choice2,
@@ -113,6 +114,7 @@ def right_path(id):
     if line:
         return jsonify(
             text = line.text,
+            duration = line.duration,
             filename = line.filename,
             choice1 = line.choice1,
             choice2 = line.choice2,
