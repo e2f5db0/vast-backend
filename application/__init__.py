@@ -32,6 +32,7 @@ app.secret_key = urandom(32)
 from application import views
 
 from application.lines import models
+from application.lines import views
 
 from application.auth.admin import views
 from application.auth.admin import forms
