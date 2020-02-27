@@ -43,3 +43,18 @@ def get_line_file(name):
         return send_file(BytesIO(music.data), attachment_filename=music.name, as_attachment=True)
     else:
         abort(404)
+
+@app.route('/left-path/count/')
+def get_count_left():
+    count = Line.query.filter(Line.filename.contains('left_path')).count()
+    return jsonify({'lines': count})
+
+@app.route('/right-path/count/')
+def get_count_right():
+    count = Line.query.filter(Line.filename.contains('right_path')).count()
+    return jsonify({'lines': count})
+
+@app.route('/center-path/count/')
+def get_count_center():
+    count = Line.query.filter(Line.filename.contains('center_path')).count()
+    return jsonify({'lines': count})
