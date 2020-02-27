@@ -34,9 +34,9 @@ def admin_login():
     form = AdminLoginForm(request.form)
 
     username_checks = bcrypt.checkpw(form.username.data.encode('utf-8'),
-                                     '$2b$12$Hrvsl951jP9q/P5ytj9SIey/rFcsCfwu42no7SHcBRuNNE7QB7ksC'.encode('utf-8'))
+                                     os.getenv('ADMIN_U').encode('utf-8'))
     password_checks = bcrypt.checkpw(form.password.data.encode('utf-8'),
-                                     '$2b$12$3Of0LUjX4CSXExxNrglcN.Z59DUCj8y6Kc7bBAiBNevUSJwqoBh6W'.encode('utf-8'))
+                                     os.getenv('ADMIN_P').encode('utf-8'))
 
     if username_checks and password_checks:
         session['admin_token'] = admin_token
