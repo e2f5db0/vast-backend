@@ -45,14 +45,48 @@ def admin_login():
         flash(f'Bad credentials.', 'danger')
         return redirect(url_for('admin_login'))
 
-@app.route('/auth/admin/manage/')
+@app.route('/auth/admin/manage/', methods=['GET', 'POST'])
 def manage():
-    if session['admin_token'] and session['admin_token'] == admin_token:
-        page = request.args.get('page', 1, type=int)
-        lines = Line.query.order_by(Line.date_created.desc()).paginate(page=page, per_page=4)
-        return render_template('/auth/admin/admin_manage.html', lines=lines, sort_by='date')
+    if request.method == 'GET':
+        if session['admin_token'] and session['admin_token'] == admin_token:
+            page = request.args.get('page', 1, type=int)
+            lines = Line.query.order_by(Line.date_created.desc()).paginate(page=page, per_page=4)
+            return render_template('/auth/admin/admin_manage.html', lines=lines, sort_by='date', form=LineForm())
+        else:
+            abort(403)
+    
+    form = LineForm(request.form)
+
+    l = Line(form.filename.data,
+                   form.duration.data,
+                   form.text.data,
+                   form.choice1.data,
+                   form.choice2.data,
+                   form.choice3.data)
+
+    l_id = request.form.get('id')
+    line = Line.query.filter_by(id=l_id).first()
+
+    if session['admin_token'] and session['admin_token'] == admin_token and form.validate_on_submit():
+        if l.filename != line.filename:
+            line.filename = l.filename
+        if l.duration != line.duration:
+            line.duration = l.duration
+        if l.text != line.text:
+            line.text = l.text
+        if l.choice1 != line.choice1:
+            line.choice1 = l.choice1
+        if l.choice2 != line.choice2:
+            line.choice3 = l.choice3
+        if l.choice3 != line.choice3:
+            line.choice3 = l.choice3
+        db.session.commit()
     else:
-        abort(403)
+        flash(f'Something went wrong...', 'danger')
+        return redirect(url_for('manage'))
+    
+    flash(f'Line updated.', 'success')
+    return redirect(url_for('manage'))
 
 @app.route('/auth/admin/upload/', methods=['GET', 'POST'])
 def upload():
@@ -117,3 +151,20 @@ def admin_confirmation(id):
         return render_template('/auth/admin/admin_confirmation.html', line=line)
     else:
         abort(403)
+
+@app.route('/auth/admin/edit/', methods=['POST'])
+def admin_edit():
+    edit_id = request.form.get('id')
+    line = Line.query.filter_by(id=edit_id).first()
+
+    edit_form = LineForm()
+    edit_form.filename.data = line.filename
+    edit_form.duration.data = line.duration
+    edit_form.text.data = line.text
+    edit_form.choice1.data = line.choice1
+    edit_form.choice2.data = line.choice2
+    edit_form.choice3.data = line.choice3
+
+    if session['admin_token'] and session['admin_token'] == admin_token:
+        return render_template('/auth/admin/admin_edit.html', form = edit_form,
+                               default = line)
