@@ -5,6 +5,7 @@
   </form>
   <h1 class="admin-layout mb-4" style="text-align: left;">Manage</h1>
   <h4 class="admin-layout mt-4 mb-4" style="text-align: left;"><a href="{{ url_for('upload') }}">Upload lines</a></h4>
+  <h4 class="admin-layout mt-4 mb-4" style="text-align: left;"><a href="{{ url_for('upload_audio') }}">Upload audio</a></h4>
   <p class="admin-layout">Sort:</p>
   <select name="sort_by" id="sort_by" onchange="javascript:location.href = this.value;">
     <option value="{{ url_for('manage') }}" id="date">Date</option>

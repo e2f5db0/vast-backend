@@ -4,6 +4,7 @@ from flask import render_template, request, redirect, url_for, send_file, abort
 from application.lines.models import Line
 from application.lines.models import Music
 from application.auth.admin.forms import LineForm
+from application.auth.admin.forms import MusicForm
 from ibm_watson import TextToSpeechV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from io import BytesIO
@@ -124,6 +125,32 @@ def upload():
     else:
         flash(f'Something went wrong.', 'danger')
         return render_template('auth/admin/admin_upload.html', form=form)
+
+@app.route('/auth/admin/upload-audio/', methods=['GET', 'POST'])
+def upload_audio():
+    if request.method == 'GET':
+        return render_template('auth/admin/admin_upload_audio.html', form=MusicForm())
+
+    form = MusicForm(request.form)
+    name = str(form.name.data) + '.wav'
+
+    file = ''
+    if request.files:
+        file = request.files['music']
+    else:
+        flash(f'No file selected.', 'danger')
+        return render_template('auth/admin/admin_upload_audio.html', form=form)
+
+    music = Music(name=name, data=file.read())
+
+    if form.validate_on_submit():
+        db.session().add(music)
+        db.session().commit()
+        flash(f'File uploaded.', 'success')
+        return redirect(url_for('upload_audio'))
+    else:
+        flash(f'Something went wrong.', 'danger')
+        return render_template('auth/admin/admin_upload_audio.html', form=form)
 
 @app.route('/auth/admin/delete/<id>/')
 def admin_delete_line(id):
