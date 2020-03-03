@@ -54,11 +54,12 @@ def right_path(id):
     else:
         abort(404)
 
-@app.route('/prey-for-god/')
-def prey_for_god():
-    wisdoms = Music.query.filter(Music.name.contains('prey')).all()
-    if len(wisdoms) > 0 :
-        wisdom = random.choice(wisdoms)
+@app.route('/prey-for-god/<id>')
+def prey_for_god(id):
+    name = 'prey' + str(id)
+    print(name)
+    wisdom = Music.query.filter(Music.name.contains(name)).first()
+    if wisdom:
         return send_file(BytesIO(wisdom.data), attachment_filename=wisdom.name, as_attachment=True)
     else:
         abort(404)
