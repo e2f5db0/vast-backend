@@ -15,3 +15,7 @@ class LineForm(FlaskForm):
     choice2 = StringField('Choice 2', validators=[DataRequired(), Length(min=1), Length(max=100)])
     choice3 = StringField('Choice 3', validators=[DataRequired(), Length(min=1), Length(max=100)])
     submit = SubmitField('Upload')
+
+class MusicForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(min=1), Length(max=30)])
+    submit = SubmitField('Upload')
