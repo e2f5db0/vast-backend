@@ -57,7 +57,6 @@ def right_path(id):
 @app.route('/prey-for-god/<id>')
 def prey_for_god(id):
     name = 'prey' + str(id)
-    print(name)
     wisdom = Music.query.filter(Music.name.contains(name)).first()
     if wisdom:
         return send_file(BytesIO(wisdom.data), attachment_filename=wisdom.name, as_attachment=True)
