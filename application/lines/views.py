@@ -1,5 +1,5 @@
 from application import app
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, abort
 from application.lines.models import Line
 from application.lines.models import Music
 from io import BytesIO
@@ -20,9 +20,41 @@ def left_path(id):
     else:
         abort(404)
 
+@app.route('/center-path/<id>/')
+def center_path(id):
+    name = 'center_path' + str(id)
+    line = Line.query.filter_by(filename=name).first()
+    if line:
+        return jsonify(
+            text = line.text,
+            duration = line.duration,
+            filename = line.filename,
+            choice1 = line.choice1,
+            choice2 = line.choice2,
+            choice3 = line.choice3
+        )
+    else:
+        abort(404)
+
 @app.route('/right-path/<id>/')
 def right_path(id):
     name = 'right_path' + str(id)
+    line = Line.query.filter_by(filename=name).first()
+    if line:
+        return jsonify(
+            text = line.text,
+            duration = line.duration,
+            filename = line.filename,
+            choice1 = line.choice1,
+            choice2 = line.choice2,
+            choice3 = line.choice3
+        )
+    else:
+        abort(404)
+
+@app.route('/prey-for-god/<id>/')
+def pre_for_god(id):
+    name = 'prey' + str(id)
     line = Line.query.filter_by(filename=name).first()
     if line:
         return jsonify(
