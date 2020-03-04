@@ -78,7 +78,7 @@ def manage():
         if l.choice1 != line.choice1:
             line.choice1 = l.choice1
         if l.choice2 != line.choice2:
-            line.choice3 = l.choice3
+            line.choice2 = l.choice2
         if l.choice3 != line.choice3:
             line.choice3 = l.choice3
         db.session.commit()
